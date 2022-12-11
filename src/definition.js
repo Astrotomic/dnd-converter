@@ -88,17 +88,21 @@ export default {
         icon: svg(FadWeight),
         description: 'Why did the halfling thief only steal one gold piece from the dragon\'s hoard? Because she couldn\'t carry any more - she\'s already struggling to lug around her +5 sword of slicing and dicing!',
         units: {
-            pound: {
-                label: 'Pound (lb)',
-                multiplier: 1,
-            },
             ounce: {
                 label: 'Ounce (oz)',
+                multiplier: 1,
+            },
+            pound: {
+                label: 'Pound (lb)',
                 multiplier: 16,
+            },
+            quarter: {
+                label: 'Quarter (qt)',
+                multiplier: 448,
             },
             barrel: {
                 label: 'Barrel',
-                multiplier: 200,
+                multiplier: 3200,
             },
         }
     },
