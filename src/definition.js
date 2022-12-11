@@ -77,6 +77,10 @@ export default {
                 label: 'Gallon',
                 multiplier: 128,
             },
+            barrel: {
+                label: 'Barrel',
+                multiplier: 5376,
+            },
         },
     },
     weight: {
