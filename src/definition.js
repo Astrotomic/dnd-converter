@@ -96,6 +96,10 @@ export default {
                 label: 'Ounce (oz)',
                 multiplier: 16,
             },
+            barrel: {
+                label: 'Barrel',
+                multiplier: 200,
+            },
         }
     },
     area: {
