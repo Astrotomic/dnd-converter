@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>D&D Unit Converter</title>
+    <script defer type="module" src="/app.js"></script>
+</head>
+<body class="font-sans flex flex-col min-h-screen">
+
+<div class="absolute inset-x-0 -z-10 transform-gpu overflow-hidden blur-3xl hidden md:block">
+    <svg class="relative left-[45%] -z-10 max-w-none rotate-[30deg] h-[42.375rem]" viewBox="0 0 1155 678" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill="url(#45de2b6b-92d5-4d68-a6a0-9b9b2abad533)" fill-opacity=".3" d="M317.219 518.975L203.852 678 0 438.341l317.219 80.634 204.172-286.402c1.307 132.337 45.083 346.658 209.733 145.248C936.936 126.058 882.053-94.234 1031.02 41.331c119.18 108.451 130.68 295.337 121.53 375.223L855 299l21.173 362.054-558.954-142.079z" />
+        <defs>
+            <linearGradient id="45de2b6b-92d5-4d68-a6a0-9b9b2abad533" x1="1155.49" x2="-78.208" y1=".177" y2="474.645" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#DC2626"></stop>
+                <stop offset="1" stop-color="#EA580C"></stop>
+            </linearGradient>
+        </defs>
+    </svg>
+</div>
+
+<main class="relative overflow-hidden py-8 md:py-12 lg:py-16 flex-grow" x-data="converter">
+    <div class="relative mx-auto px-4 max-w-xl md:max-w-7xl lg:px-8">
+        <h3 class="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl md:text-4xl font-cursive">
+            D&D Unit Converter
+        </h3>
+        <p class="mt-3 text-lg text-gray-500">
+            Transform your gaming experience with D&D Unit Converter - the ultimate tool for effortlessly converting between the various units used in the Dungeons and Dragons universe. Never get tripped up by confusing conversions again - with D&D Unit Converter, you'll be able to easily convert between different currencies, weights, volumes, and more!
+        </p>
+
+        <div class="mt-8 relative md:grid md:grid-cols-2 md:items-center md:gap-8">
+            <dl class="space-y-4 lg:space-y-8">
+                <template x-for="(_type, _name) in definition" :key="_name" hidden>
+                    <div class="relative">
+                        <dt class="flex">
+                            <div class="flex items-center justify-center h-10 w-10 rounded-xl bg-red-500 text-white">
+                                <div class="w-6 h-6 flex items-center justify-center" x-html="_type.icon"></div>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-lg font-cursive font-medium leading-6 text-gray-900" x-text="_type.label"></p>
+                                <p class="text-xs text-neutral-500" x-text="Object.values(units(_name)).join(', ')"></p>
+                            </div>
+                        </dt>
+                        <dd class="mt-1 text-base text-neutral-500">
+                            <p x-text="_type.description"></p>
+                        </dd>
+                    </div>
+                </template>
+            </dl>
+
+            <section class="mx-auto w-full md:max-w-md rounded-lg shadow-lg border border-neutral-200 mt-10 lg:mt-0">
+                <div class="rounded-lg bg-white overflow-hidden divide-y divide-neutral-200">
+                    <div class="p-6">
+                        <label for="type" class="block text-sm font-medium text-gray-700">
+                            Type
+                        </label>
+                        <select
+                            id="type"
+                            name="type"
+                            x-model="type"
+                            class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-red-500 focus:outline-none focus:ring-red-500 sm:text-sm"
+                        >
+                            <template x-for="(label, name) in types()" :key="name" hidden>
+                                <option :value="name" x-text="label"></option>
+                            </template>
+                        </select>
+                    </div>
+                    <div class="p-6">
+                        <label for="value" class="block text-sm font-medium text-gray-700">
+                            Value
+                        </label>
+                        <div class="relative mt-1 rounded-md shadow-sm">
+                            <input
+                                type="number"
+                                id="value"
+                                name="value"
+                                x-model="value"
+                                step="1"
+                                min="1"
+                                class="block w-full rounded-md border-gray-300 pr-32 focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                                placeholder="10"
+                            >
+                            <div class="absolute inset-y-0 right-0 flex items-center">
+                                <label for="unit" class="sr-only">Unit</label>
+                                <select
+                                    id="unit"
+                                    name="unit"
+                                    x-model="unit"
+                                    class="h-full rounded-md border-transparent bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:border-red-500 focus:ring-red-500 sm:text-sm"
+                                >
+                                    <template x-for="(label, name) in units()" :key="name" hidden>
+                                        <option :value="name" x-text="label"></option>
+                                    </template>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <dl class="py-4">
+                        <template x-for="(label, name) in units()" :key="name" hidden>
+                            <div class="grid grid-cols-3 gap-4 py-2 px-6">
+                                <dt class="text-sm font-medium text-neutral-500" x-text="label"></dt>
+                                <dd
+                                    class="text-sm text-neutral-900 col-span-2 tabular-nums text-right"
+                                    x-text="new Intl.NumberFormat().format(convert(unit, value, name))"
+                                ></dd>
+                            </div>
+                        </template>
+                    </dl>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<footer class="bg-white flex-shrink-0">
+    <div class="mx-auto max-w-7xl py-4 px-4 lg:px-8">
+        <p class="text-center text-base text-gray-400">
+            <span class="whitespace-nowrap">
+                &copy; <time x-data x-text="new Date().getFullYear()"></time> <a href="https://astrotomic.info" class="hover:text-red-500">Astrotomic</a>.
+            </span>
+            <span class="whitespace-nowrap">
+                Created by <a href="https://gummibeer.dev" class="hover:text-red-500">Tom Witkowski</a>.
+            </span>
+            <span class="whitespace-nowrap">
+                Source on <a href="https://github.com/Astrotomic/dnd-converter" class="hover:text-red-500">GitHub</a>.
+            </span>
+            <span class="whitespace-nowrap">
+                All rights reserved.
+            </span>
+        </p>
+    </div>
+</footer>
+
+</body>
+</html>
