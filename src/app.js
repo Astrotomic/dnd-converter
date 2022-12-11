@@ -25,16 +25,6 @@ Alpine.data('converter', () => ({
         return mapValues(this.definition[type || this.type].units, u => u.label);
     },
     convert(from, value, to) {
-        window.umami.trackEvent(
-            'convert',
-            {
-                type: this.type,
-                from: from,
-                value: value,
-                to: to,
-            },
-        );
-
         return (value || 0)
             * (this.definition[this.type]?.units[from]?.multiplier || 0)
             / (this.definition[this.type]?.units[to]?.multiplier || 0);
